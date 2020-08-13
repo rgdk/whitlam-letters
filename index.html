@@ -111,7 +111,7 @@
     var suggestionsProcessor = function (results) {
         return results.map(function (result) {
             result.searchText = result["@search.text"];
-            return result;
+            return result.replace("[", "<br>[");
         });
     };
 
