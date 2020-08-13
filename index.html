@@ -118,8 +118,7 @@
     automagic.store.setSuggestionsProcessor(suggestionsProcessor);
 
     var suggestionsTemplate = `
-            <p> content: {{content}} </p>
-            <p> metadata_storage_name: {{metadata_storage_name}} people: {{people}} locations: {{locations}} organizations: {{organizations}} </p> {{{searchText}}}`;
+            <p> metadata_storage_name: {{metadata_storage_name}} people: {{people}} locations: {{locations}} organizations: {{organizations}} </p>`;
 
     // Add a search box that uses suggester "sg-jfk", grabbing some additional fields to display during suggestions. Use the template defined above
     automagic.addSearchBox("searchBox",
