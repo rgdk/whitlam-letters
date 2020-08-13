@@ -17,7 +17,6 @@
         .searchResults__result .resultDescription {
             margin: 0.5em 0 0 0;
         }
-        .results { background-color: #f5f5f5; }
     </style>
 </head>
 <body>
@@ -87,8 +86,8 @@
     var automagic = new AzSearch.Automagic({ index: "thedismissalindex", queryKey: "B2BB2B9524B7D83011FB7D0B537CF326", service: "whitlam-search-service-rcze273zou5ii" });
 
     const resultTemplate = `<div class="col-xs-12 col-sm-3 col-md-3 result_img" >
-            <img class="img-responsive result_img" src={{fileName}} alt="image not found" />
-        </div><div class="col-xs-12 col-sm-9 col-md-9"><h4>{{fileName}}</h4><div class="resultDescription">{{{text}}}</div></div>`;
+            <img class="img-responsive result_img" src="./file.jpg" alt="" />
+        </div><div class="col-xs-12 col-sm-9 col-md-9"><h2>{{fileName}}</h2><div class="resultDescription">{{{text}}}</div></div>`;
 
     // add a results view using the template defined above
     automagic.addResults("results", { count: true }, resultTemplate);
