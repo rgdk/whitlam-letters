@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/azsearch.js@0.0.21/dist/AzSearch.css">
-    <title>Azure Cognitive Search Demo App</title>
+    <title>Whitlam Dismissal Letters Search Demo App</title>
     <style>
         .searchResults__result h4 {
             margin-top: 0px;
@@ -48,7 +48,7 @@
                     <div id="clearFilters"></div>
                     <ul class="nav nav-sidebar">
                         <div className="panel panel-primary behclick-panel">
-                            
+
                             <li>
                                 <div id="entitiesFacet">
                                 </div>
@@ -84,17 +84,17 @@
 
     // Initialize and connect to your search service
     var automagic = new AzSearch.Automagic({ index: "thedismissalindex", queryKey: "B2BB2B9524B7D83011FB7D0B537CF326", service: "whitlam-search-service-rcze273zou5ii" });
-    
+
     const resultTemplate = `<div class="col-xs-12 col-sm-3 col-md-3 result_img" >
             <img class="img-responsive result_img" src={{fileName}} alt="image not found" />
         </div><div class="col-xs-12 col-sm-9 col-md-9"><h4>{{fileName}}</h4><div class="resultDescription">{{{text}}}</div></div>`;
 
     // add a results view using the template defined above
     automagic.addResults("results", { count: true }, resultTemplate);
-    
+
     // Adds a pager control << 1 2 3 ... >>
     automagic.addPager("pager");
-    
+
     // Set some processors to format results for display
     var suggestionsProcessor = function (results) {
         return results.map(function (result) {
@@ -119,7 +119,7 @@
         },
         "",
         suggestionsTemplate);
-    
+
        automagic.addCheckboxFacet("entitiesFacet", "entities", "collection");
 
 
