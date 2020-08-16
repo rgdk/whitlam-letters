@@ -335,7 +335,7 @@ a.searchResults__facetHeader-link {
 	left: 0;
 	right: 0;
 	margin-left: 0;
-	width: auto;
-	height: auto;
+	width: 75px;
+	height: 100px;
   vertical-align: bottom;
 }

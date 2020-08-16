@@ -17,6 +17,8 @@
         .searchResults__result .resultDescription {
             margin: 0.5em 0 0 0;
         }
+
+        span { display: inline; }
     </style>
 </head>
 <body>
@@ -34,6 +36,7 @@
                     <div class="row">
                         <div class="col-md-2 pagelabel">
                             <a class="navbar-brand pagelabel" target="_blank" href="https://portal.azure.com/#blade/HubsExtension/BrowseResourceBlade/resourceType/Microsoft.Search%2FsearchServices">Azure Cognitive Search</a>
+
                         </div>
                         <div id="searchBox" class="col-mid-8 col-sm-8 col-xs-6"></div>
                         <div id="navbar" class="navbar-collapse collapse">
@@ -98,11 +101,34 @@
     var automagic = new AzSearch.Automagic({ index: "azureblob-index", queryKey: "B2BB2B9524B7D83011FB7D0B537CF326", service: "whitlam-search-service-rcze273zou5ii" });
 
     const resultTemplate = `<div class="col-xs-12 col-sm-3 col-md-3 result_img" >
-            <img class="img-responsive result_img" src={{metadata_storage_name}} alt="image not found" />
-        </div><div class="col-xs-12 col-sm-9 col-md-9"><h4>{{metadata_storage_name}}</h4><div class="resultDescription">{{{merged_content}}}</div></div>`;
+            <img class="img-responsive result_img" src={{metadata_storage_file_extension}}_file.jpg alt="image not found" />
+        </div><div class="col-xs-12 col-sm-9 col-md-9"><h2>{{metadata_storage_name}}</h2><div class="resultDescription">{{{merged_content}}}</div></div>`;
 
     // add a results view using the template defined above
-    automagic.addResults("results", { count: true }, resultTemplate);
+    automagic.addResults("results", { count: true}, resultTemplate);
+
+	// add a resultsProcessor to more easily format the results display
+	var resultsProcessor = function(results) {
+		return results.map(function(result){
+			result.merged_content = result.merged_content.split("[image: image").join("<br><br>@@@").replace(new RegExp("@@@[0-9]", "g"), "").split(".png]").join("").split(".jpg]").join("").split(".bmp]").join("");
+
+			var search = getElementsByClassName(document, "searchBox__input")[0].value;
+		  	search = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+		  	var re = new RegExp(search, 'gi');
+		  	var m;
+
+		  	if (search.length > 0)
+				result.merged_content = result.merged_content.replace(re, `<span style="background-color:#ff0;">$&</span>`);
+			else result.merged_content = result.merged_content;
+
+			var summary = result.merged_content;
+			result.summary = summary.length < 200 ? summary : summary.substring(0, 200) + "...";
+			return result;
+		});
+
+	};
+	automagic.store.setResultsProcessor(resultsProcessor);
 
     // Adds a pager control << 1 2 3 ... >>
     automagic.addPager("pager");
@@ -111,9 +137,10 @@
     var suggestionsProcessor = function (results) {
         return results.map(function (result) {
             result.searchText = result["@search.text"];
-            return result.replace("[image: image", "<br>[image: image");
+            return result;
         });
     };
+
 
     automagic.store.setSuggestionsProcessor(suggestionsProcessor);
 
@@ -139,6 +166,32 @@
 
     // Adds a button to clear any applied filters
     automagic.addClearFiltersButton("clearFilters");
+
+
+    function getElementsByClassName(node,classname) {
+	  if (node.getElementsByClassName) { // use native implementation if available
+	    return node.getElementsByClassName(classname);
+	  } else {
+	    return (function getElementsByClass(searchClass,node) {
+	        if ( node == null )
+	          node = document;
+	        var classElements = [],
+	            els = node.getElementsByTagName("*"),
+	            elsLen = els.length,
+	            pattern = new RegExp("(^|\\s)"+searchClass+"(\\s|$)"), i, j;
+
+	        for (i = 0, j = 0; i < elsLen; i++) {
+	          if ( pattern.test(els[i].className) ) {
+	              classElements[j] = els[i];
+	              j++;
+	          }
+	        }
+	        return classElements;
+	    })(classname, node);
+	  }
+	}
+
+
 </script>
 <style>
 </style>
