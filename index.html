@@ -21,7 +21,7 @@
         span { display: inline; }
     </style>
 </head>
-<body>
+<body style="background-image: url('bg.jpg'); background-size: cover; background-repeat: no-repeat;">
     <div id="app">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
@@ -113,14 +113,26 @@
 			result.merged_content = result.merged_content.split("[image: image").join("<br><br>@@@").replace(new RegExp("@@@[0-9]", "g"), "").split(".png]").join("").split(".jpg]").join("").split(".bmp]").join("");
 
 			var search = getElementsByClassName(document, "searchBox__input")[0].value;
-		  	search = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-		  	var re = new RegExp(search, 'gi');
-		  	var m;
+			var word_array = [];
+			//var re = Null;
+			//var m = Null;
 
-		  	if (search.length > 0)
-				result.merged_content = result.merged_content.replace(re, `<span style="background-color:#ff0;">$&</span>`);
-			else result.merged_content = result.merged_content;
+			if (search.length > 0) {
+				word_array = search.match(/\w+(?:'\w+)*/g);
+
+				for(let i = 0; i < word_array.length; i++){
+
+					word = word_array[i].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+					var re = new RegExp(word, 'gi');
+
+					if (word.length > 0)
+						result.merged_content = result.merged_content.replace(re, `<span style="background-color:#ff0;"><b>$&</b></span>`);
+					else {
+						result.merged_content = result.merged_content;
+					}				}
+			}
 
 			var summary = result.merged_content;
 			result.summary = summary.length < 200 ? summary : summary.substring(0, 200) + "...";
