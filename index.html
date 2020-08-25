@@ -21,7 +21,7 @@
         span { display: inline; }
     </style>
 </head>
-<body style="background-image: url('bg.jpg'); background-size: cover; background-repeat: no-repeat;">
+<body  style="margin: 0px; background-color: rgb(0, 0, 0); background-image: url('bg.jpg'); background-size: cover; ">
     <div id="app">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
@@ -68,6 +68,10 @@
                                 <div id="keyphrasesFacet">
                                 </div>
                             </li>
+                            <li>
+								<div id="metadata_content_typeFacet">
+								</div>
+                            </li>
                         </div>
                     </ul>
                 </div>
@@ -98,7 +102,7 @@
     // CORS (*) must be enabled in the index before using the demo app.
 
     // Initialize and connect to your search service
-    var automagic = new AzSearch.Automagic({ index: "azureblob-index", queryKey: "B2BB2B9524B7D83011FB7D0B537CF326", service: "whitlam-search-service-rcze273zou5ii" });
+    var automagic = new AzSearch.Automagic({ index: "azureblob-index3", queryKey: "B2BB2B9524B7D83011FB7D0B537CF326", service: "whitlam-search-service-rcze273zou5ii" });
 
     const resultTemplate = `<div class="col-xs-12 col-sm-3 col-md-3 result_img" >
             <img class="img-responsive result_img" src={{metadata_storage_file_extension}}_file.jpg alt="image not found" />
@@ -157,24 +161,25 @@
     automagic.store.setSuggestionsProcessor(suggestionsProcessor);
 
     var suggestionsTemplate = `
-            <p> <b>file name:</b> {{metadata_storage_name}} <br><b>people:</b> {{people}} <br><b>locations:</b> {{locations}} <br><b>organizations:</b> {{organizations}} </p>`;
+            <p>{{metadata_storage_name}}</p>`;
 
     // Add a search box that uses suggester "sg-jfk", grabbing some additional fields to display during suggestions. Use the template defined above
     automagic.addSearchBox("searchBox",
         {
             highlightPreTag: "<b>",
             highlightPostTag: "</b>",
-            suggesterName: "sg-jfk",
-            select: "metadata_storage_name,people,locations,organizations"
+            //suggesterName: "sg-jfk",
+            suggesterName: "",
+            select: "metadata_storage_name"
         },
         "",
         suggestionsTemplate);
 
-       automagic.addCheckboxFacet("peopleFacet", "people", "collection");
-   automagic.addCheckboxFacet("organizationsFacet", "organizations", "collection");
-   automagic.addCheckboxFacet("locationsFacet", "locations", "collection");
-   automagic.addCheckboxFacet("keyphrasesFacet", "keyphrases", "collection");
-
+    automagic.addCheckboxFacet("peopleFacet", "people", "collection");
+   	automagic.addCheckboxFacet("organizationsFacet", "organizations", "collection");
+   	automagic.addCheckboxFacet("locationsFacet", "locations", "collection");
+  	automagic.addCheckboxFacet("keyphrasesFacet", "keyphrases", "collection");
+	automagic.addCheckboxFacet("metadata_content_typeFacet", "metadata_content_type", "string");
 
     // Adds a button to clear any applied filters
     automagic.addClearFiltersButton("clearFilters");
@@ -207,4 +212,4 @@
 </script>
 <style>
 </style>
-</html>azsearchjsApp.html
+</html>
